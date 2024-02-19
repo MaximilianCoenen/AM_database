@@ -3,66 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seafile Upload</title>
+    <title>Seafile File Upload</title>
 </head>
 <body>
 
-<input type="file" id="fileInput" />
-<button onclick="uploadFile()">Upload File</button>
+    <h1>Upload Files to Seafile</h1>
 
-<script>
-    function uploadFile() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-
-        if (file) {
-            const repoId = '1948d1b5-5f6b-4212-be65-c8df02afacd6';
-            const token = '5a1a49e88280493c94d6';
-            const apiLink = 'https://seafile.cloud.uni-hannover.de/api/v2.1/upload-links';
-
-            const uploadUrl = `${apiLink}/repos/${repoId}/upload-link/`;
-
-            // Get upload link
-            fetch(uploadUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Token ${token}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                const uploadLink = data['upload_link'];
-
-                // Upload the file using the obtained link
-                const formData = new FormData();
-                formData.append('file', file);
-
-                fetch(uploadLink, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(uploadResponse => {
-                    console.log('File uploaded successfully:', uploadResponse);
-                    alert('File uploaded successfully!');
-                })
-                .catch(error => {
-                    console.error('Error uploading file:', error);
-                    alert('Error uploading file. Please try again.');
-                });
-            })
-            .catch(error => {
-                console.error('Error obtaining upload link:', error);
-                alert('Error obtaining upload link. Please try again.');
-            });
-        } else {
-            alert('Please select a file to upload.');
-        }
-    }
-</script>
+    <form action="https://seafile.cloud.uni-hannover.de/u/d/2a75c9d3a3f4443cb048/" method="post" enctype="multipart/form-data">
+        <label for="file">Choose a file:</label>
+        <input type="file" name="file" id="file" required>
+        <br>
+        <input type="submit" value="Upload">
+    </form>
 
 </body>
 </html>
